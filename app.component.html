@@ -1,0 +1,167 @@
+<nav class="navbar navbar-expand-lg border-1 border-bottom">
+  <div class="container">
+    <a class="navbar-brand">
+      <img src="../assets/logo-dark.png" alt="" width="125">
+    </a>
+    <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 small fw-bold">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/aboutus">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/contactus">Contact</a>
+        </li>
+
+      </ul>
+      <a href="tel:18886040198" class="fw-bold text-warning">
+        <i class="bi-telephone-fill"></i>
+        18886040198
+      </a>
+    </div>
+  </div>
+</nav>
+<router-outlet></router-outlet>
+<footer>
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-12 col-md-8">
+        <div class="row">
+          <div class="col-12 col-md-6 mb-3">
+            <h6 class="text-primary">Company</h6>
+            <hr>
+            <a class="d-block" href="/aboutus">About us</a>
+            <a class="d-block" href="/contactus">Contact us</a>
+            <a class="d-block" href="/terms-and-conditions">Terms and conditions</a>
+            <a class="d-block" href="/privacy-policy">Privacy Policy</a>
+            <a class="d-block" href="/faq">Faq</a>
+          </div>
+          <div class="col-12 col-md-6 mb-3">
+            <h6 class="text-primary">Contact</h6>
+            <hr>
+            <div class="row mb-3">
+              <div class="col-auto">
+                <i class="bi bi-map"></i>
+              </div>
+              <div class="col">
+                <p class="d-inline">
+                  945 Taraval Street, San Francisco, CA 94116
+                  <br>
+                  United States of America
+                </p>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-auto">
+                <i class="bi bi-phone"></i>
+              </div>
+              <div class="col">
+                <p class="d-inline">
+                  <a href="tel:18886080051">18886080051</a>
+                  <br>
+                  (7.00am - 8.00pm)
+                </p>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-auto">
+                <i class="bi bi-envelope"></i>
+              </div>
+              <div class="col">
+                <p class="d-inline">
+                  <a href="mailto:sales@ezeeflights.com">sales@ezeeflights.com</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="row">
+          <div class="col">
+            <h6 class="text-primary">Follow us on</h6>
+            <hr>
+            <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+              <li class="nav-item col-auto">
+                <a class="nav-link py-2 px-2 fs-4" href="https://www.facebook.com/ezeeflightstravel/" target="_blank"><i
+                    class="bi bi-facebook"></i></a>
+              </li>
+              <li class="nav-item col-auto">
+                <a class="nav-link py-2 px-2 fs-4" href="https://twitter.com/ezeeflightsus" target="_blank"><i
+                    class="bi bi-twitter"></i></a>
+              </li>
+              <li class="nav-item col-auto">
+                <a class="nav-link py-2 px-2 fs-4" href="https://www.pinterest.com/ezeeflights/" target="_blank"><i
+                    class="bi bi-pinterest"></i></a>
+              </li>
+              <li class="nav-item col-auto">
+                <a class="nav-link py-2 px-2 fs-4" href="https://www.linkedin.com/in/ezeeflights/" target="_blank"><i
+                    class="bi bi-linkedin"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div class="row">
+          <div class="col">
+            <h6 class="text-primary">Our Global Presence</h6>
+          </div>
+        </div>
+        <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+          <li class="nav-item col-3 col-lg-auto"><a class="nav-link py-2 px-0 px-lg-2" href="//www.uk.ezeeflights.com"
+              target="_blank" title="United Kingdom"><img class="img-responsive" src="../assets/uk.png" width="30"
+                height="20" alt="Ezeeflights United Kingdom"> </a></li>
+          <li class="nav-item col-3 col-lg-auto"><a class="nav-link py-2 px-0 px-lg-2" href="//www.au.ezeeflights.com"
+              target="_blank" title="Australia"><img class="img-responsive" src="../assets/au.png" width="30"
+                height="20" alt="Ezeeflights Australia"> </a></li>
+          <li class="nav-item col-3 col-lg-auto"><a class="nav-link py-2 px-0 px-lg-2" href="//www.ezeeflights.ca"
+              target="_blank" title="Canada"><img class="img-responsive" src="../assets/ca.png" width="30" height="20"
+                alt="Ezeeflights Canada">
+            </a></li>
+          <li class="nav-item col-3 col-lg-auto"><a class="nav-link py-2 px-0 px-lg-2" href="//www.in.ezeeflights.com"
+              target="_blank" title="India"><img class="img-responsive" src="../assets/in.png" width="30" height="20"
+                alt="Ezeeflights India">
+            </a></li>
+          <li class="nav-item col-3 col-lg-auto"><a class="nav-link py-2 px-0 px-lg-2" href="//www.fr.ezeeflights.com"
+              target="_blank" title="France"><img class="img-responsive" src="../assets/fr.png" width="30" height="20"
+                alt="Ezeeflights France">
+            </a></li>
+          <li class="nav-item col-3 col-lg-auto"><a class="nav-link py-2 px-0 px-lg-2" href="//www.de.ezeeflights.com"
+              target="_blank" title="Germany"><img class="img-responsive" src="../assets/de.png" width="30" height="20"
+                alt="Ezeeflights Germany">
+            </a></li>
+          <li class="nav-item col-3 col-lg-auto"><a class="nav-link py-2 px-0 px-lg-2" href="//www.es.ezeeflights.com"
+              target="_blank" title="Spain"><img class="img-responsive" src="../assets/es.png" width="30" height="20"
+                alt="Ezeeflights Spain">
+            </a></li>
+          <li class="nav-item col-3 col-lg-auto"><a class="nav-link py-2 px-0 px-lg-2" href="//www.mx.ezeeflights.com"
+              target="_blank" title="Mexico"><img class="img-responsive" src="../assets/mx.png" width="30" height="20"
+                alt="Ezeeflights Mexico">
+            </a></li>
+        </ul>
+      </div>
+      <div class="col-12 col-md-6">
+        <img src="../assets/secure-foot.png" class="img-fluid mt-3">
+      </div>
+    </div>
+    <div class="col text-center mt-3 small">
+      <p class="small">
+        Ezeeflights is a world`s leading player in offering cheapest flights bookings online. With the lowest fares
+        guarantee and great value in return, experience the world`s most popular destinations right under your budget!
+
+        Ezeeflights is the trading name of the World Reisen. Our company`s registration no is- 45-3582639.
+      </p>
+      <p class="small">
+        Copyright ©2022 Ezeeflights. All Rights Reserved.
+      </p>
+    </div>
+  </div>
+</footer>

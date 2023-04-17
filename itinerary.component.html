@@ -1,0 +1,380 @@
+<div class="container">
+    <div class="row">  
+      <div class="col-sm-12 py-4">
+    <img src="../assets/itinerary.jpg" alt="" style="width: 100%;">
+  </div>
+</div>
+
+<div *ngIf="hasLoaded" class="bg-light">
+
+    <section class="container py-4" *ngIf="rawResultData; else notFound">
+        <div class="row">
+            <div class="col-12 col-sm-9 small order-sm-1 order-2">
+                <div [ngSwitch]="step">
+                    <div class="mb-4" *ngSwitchCase="0">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>
+                                    Review your Flight
+                                </h5>
+                                <div class="p-4 border shadow"
+                                    *ngIf="flight && flight.outbound && flight.outbound.length > 0">
+                                    <h5>{{getAirportName(flight.outbound[0].fromAirport.code)}} <i
+                                            class="bi-arrow-right"></i>
+                                        {{getAirportName(flight.outbound[flight.outbound.length - 1].toAirport.code)}}
+                                    </h5>
+                                    <div class="mb-3">
+                                        <span class="p-1 alert alert-danger me-2"> {{flight.outbound[0].departureDate |
+                                            date:
+                                            'EEE,
+                                            MMM
+                                            d'}}</span>
+                                        <span>{{getStopText(flight.outbound.length)}}
+                                            {{getDuration(flight.outbound[0].totalTime)}}
+                                        </span>
+                                        <div class="float-sm-end mt-2 mt-sm-0">
+                                            <strong class="text-primary">
+                                                {{getClassText(flight.flightClass)}}</strong>
+                                        </div>
+                                    </div>
+
+                                    <ng-container *ngTemplateOutlet="journeytmpl;context:{$implicit: flight.outbound}">
+
+                                    </ng-container>
+
+                                </div>
+
+                                <div class="p-4 border shadow mt-3"
+                                    *ngIf="flight && flight.inbound && flight.inbound.length > 0">
+
+                                    <h5>{{getAirportName(flight.inbound[0].fromAirport.code)}} <i
+                                            class="bi-arrow-right"></i>
+                                        {{getAirportName(flight.inbound[flight.inbound.length - 1].toAirport.code)}}
+                                        <small> {{flight.inbound[0].departureDate | date: 'EEE, MMM d'}}</small>
+                                    </h5>
+                                    <div class="mb-3">
+                                        <span class="p-1 alert alert-danger me-2"> {{flight.inbound[0].departureDate |
+                                            date:
+                                            'EEE, MMM d'}}</span>
+                                        <span>{{getStopText(flight.inbound.length)}}
+                                            {{getDuration(flight.inbound[0].totalTime)}}
+                                        </span>
+                                        <div class="float-sm-end mt-2 mt-sm-0">
+                                            <strong class="text-primary">
+                                                {{getClassText(flight.flightClass)}}</strong>
+                                        </div>
+                                    </div>
+
+                                    <ng-container *ngTemplateOutlet="journeytmpl;context:{$implicit: flight.inbound}">
+
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="p-4 border bg-white shadow mt-3">
+                            <h5>Important Information
+                            </h5>
+                            <h6><i class="bi bi-person-fill text-danger"></i>
+                                Passengers travelling to United States, please note</h6>
+                            <ul>
+                                <li>
+                                    <b> Who can travel?</b> All fully vaccinated travellers are allowed to enter the
+                                    country.
+                                    All
+                                    WHO-approved vaccines, including Covishield and Covaxin, are accepted by the USA.
+                                </li>
+                                <li>
+                                    <b> Pre-registration or app requirements:</b> Health declaration and contact tracing
+                                    forms
+                                    must be filled during boarding and immigration.
+                                </li>
+                                <li>
+                                    <b> COVID test requirements:</b> Pre-departure COVID-19 test and COVID-19
+                                    recovery certificate are no longer required for travellers aged 2 years and above
+                                    travelling
+                                    to the USA, however, it is recommended that travellers must take a viral test before
+                                    departure and avoid travelling if they are feeling unwell. Fully vaccinated
+                                    travellers
+                                    (except children below 18 years) must carry their vaccination certificate, with the
+                                    last
+                                    dose taken at least 15 days (day of vaccination + 14 days) before arrival.
+                                </li>
+                                <li>
+                                    <b> List of approved vaccines:</b> Covishield and Covaxin among other vaccines are
+                                    accepted.
+                                </li>
+                                <li>
+                                    <b> Quarantine Guidelines for Indians:</b> Fully vaccinated travellers do not need
+                                    to self
+                                    quarantine after returning to the United States, unless required by a state or local
+                                    jurisdiction.
+
+                                </li>
+                                <li>
+                                    Some airlines may have different eligibility criteria for certain
+                                    visa categories. Please check the detailed guidelines for both your chosen
+                                    destination and
+                                    airline before planning your travel. Know More
+
+                                </li>
+                                <li>
+                                    <b> Student Helpline LIVE NOW:</b> Students planning to travel
+                                    internationally can call us at 18886040198 for information on student visa,
+                                    quarantine/testing guidelines, extra baggage allowance and best flight deals.
+                                </li>
+                            </ul>
+
+                            <h6><i class="bi bi-person-fill text-danger"></i>
+                                International Passengers, please note:</h6>
+                            <ul>
+                                <li>Please note that is the sole responsibility of the passenger to ensure his or her
+                                    eligibility to enter the destination or transit countries (as applicable). We accept
+                                    no
+                                    liability in this regard. Please check the travel rules of all regulatory websites
+                                    prior to
+                                    booking as well as commencing.
+                                </li>
+                                <li>Some airlines may have different eligibility criteria for certain visa categories.
+                                    Please
+                                    check the detailed guidelines for both your chosen destination and airline before
+                                    planning
+                                    your travel. Know More
+                                </li>
+                            </ul>
+                        </div> -->
+                        <flight-passenger *ngSwitchCase="0" [form]="form" [result]="flight" (next)="moveStep($event)">
+
+                        </flight-passenger>
+                    </div>
+
+                    <flight-booking *ngSwitchCase="1" [form]="form" [result]="flight">
+
+                    </flight-booking>
+                </div>
+            </div>
+            <div class="col-12 col-sm-3 order-sm-2 order-1" *ngIf="flight">
+                <div class="card shadow mb-3" *ngIf="step == 1">
+                    <div class="card-body small text-muted">
+                        <div class="pt-2 pb-4">
+                            <h5>Your Booking</h5>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="fw-bold mb-1">
+                                    {{flight.outbound[0].departureDate | date: 'EEE, MMM d'}}
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-2">
+                                        <img src="{{'assets/airlinelogo/' + flight.airline.code + '.png'}}"
+                                            width="50px" />
+                                    </div>
+                                    <div class="col-10">
+                                        <div class="row">
+                                            <div class="col text-end">
+                                                <div class="fw-bold">
+                                                    <span>{{flight.outbound[0].departureDate | date:'HH:mm'}}
+                                                    </span>
+                                                </div>
+                                                <span>{{flight.outbound[0].fromAirport.code}}</span>
+                                            </div>
+                                            <div class="col-auto text-center small">
+                                                {{getDuration(flight.outbound[0].totalTime)}}
+                                                <flt-stop-ind [stops]="flight.outbound"></flt-stop-ind>
+                                            </div>
+                                            <div class="col text-left">
+                                                <div class="fw-bold">
+
+                                                    <span>{{flight.outbound[flight.outbound.length - 1].arrivalDate
+                                                        |
+                                                        date:'HH:mm'}}
+                                                    </span>
+
+                                                </div>
+                                                <span>{{flight.outbound[flight.outbound.length -
+                                                    1].toAirport.code}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="flight.inbound && flight.inbound.length > 0">
+                                    <hr>
+                                    <div class="fw-bold mb-1">
+                                        {{flight.inbound[0].departureDate | date: 'EEE, MMM d'}}
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        <img src="{{'assets/airlinelogo/' + flight.airline.code + '.png'}}"
+                                            width="50px" />
+                                    </div>
+                                    <div class="col-10">
+                                        <div class="row">
+                                            <div class="col text-end">
+                                                <div class="fw-bold">
+                                                    <span>{{flight.inbound[0].departureDate | date:'HH:mm'}}
+                                                    </span>
+                                                </div>
+                                                <span>{{flight.inbound[0].fromAirport.code}}</span>
+                                            </div>
+                                            <div class="col-auto text-center small">
+                                                {{getDuration(flight.inbound[0].totalTime)}}
+                                                <flt-stop-ind [stops]="flight.inbound"></flt-stop-ind>
+                                            </div>
+                                            <div class="col">
+                                                <div class="fw-bold">
+                                                    <span>{{flight.inbound[flight.inbound.length - 1].arrivalDate
+                                                        |
+                                                        date:'HH:mm'}}
+                                                    </span>
+                                                </div>
+                                                <span>{{flight.inbound[flight.inbound.length -
+                                                    1].toAirport.code}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="fw-bold mb-1">
+                                    <i class="bi bi-person-fill text-primary"></i>
+                                    Traveler(s)
+                                </div>
+                                <div [formGroup]="form" class="small fw-bold">
+                                    <ng-container formArrayName="passengerDetail"
+                                        *ngFor="let passenger of getPassengerDetailsFormArray().controls; let i = index;">
+                                        <div [formGroupName]="i" class="mb-2">
+                                            {{i + 1}} {{passenger.get('firstName')?.value}}
+                                            {{passenger.get('lastName')?.value}}
+                                        </div>
+                                    </ng-container>
+                                    <div>
+                                        {{form.get('phoneNo')?.value}} {{form.get('email')?.value}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card border shadow mb-4">
+                    <div class="card-body small text-muted">
+                        <div class="pt-2 pb-4">
+                            <h5>Fare Summary</h5>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col"><i class="bi bi-male"></i> {{adult}} X
+                                Adult(s)</div>
+                            <div class="col-auto">{{flight.flightFare.adultFare | currency}}</div>
+                        </div>
+                        <div class="row mb-1" *ngIf="child">
+                            <div class="col"><i class="fa fa-male" aria-hidden="true"></i> {{child}} X
+                                Child(ren)</div>
+                            <div class="col-auto">{{flight.flightFare.childFare | currency}}</div>
+                        </div>
+                        <div class="row mb-1" *ngIf="infant">
+                            <div class="col"><i class="fa fa-male" aria-hidden="true"></i> {{infant}} X
+                                Infant(s)</div>
+                            <div class="col-auto">{{flight.flightFare.infantFare | currency}}</div>
+                        </div>
+                        <hr>
+                        <div class="row fw-bold">
+                            <div class="col">Total</div>
+                            <div class="col-auto">{{flight.flightFare.grandTotal | currency}}</div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="alert alert-warning small text-primary d-none d-sm-block">
+                    <strong>
+                        Ezeeflights booking advantages
+                    </strong>
+                    <hr>
+                    <div class="my-3">
+                        <i class="bi bi-credit-card me-2"></i>
+                        Faster checkout
+                    </div>
+                    <div class="my-3">
+                        <i class="bi bi-lock me-2"></i>
+                        Trusted and Secure
+                    </div>
+                    <div class="my-3">
+                        <i class="bi bi-x-circle me-2"></i>
+                        Easy cancellations
+                    </div>
+                </div>
+
+                <div class="flyer-image">
+                    <img class="" src="../assets/flyer.jpg" alt="">
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+
+<ng-container *ngIf="!hasLoaded">
+    <div class="py-4">
+        <flight-loading></flight-loading>
+    </div>
+</ng-container>
+
+<ng-template #notFound>
+    <div class="py-4">
+        <app-not-found></app-not-found>
+    </div>
+</ng-template>
+<ng-template #journeytmpl let-segments>
+    <ng-container *ngFor="let segment of segments; let i=index">
+        <div class="row my-2" *ngIf="i > 0">
+            <div class="col">
+                <div class="alert alert-warning py-1 m-0 fw-bold">
+                    Stop-Over: {{getTimeDiff(segments[i-1].arrivalDate,
+                    segment.departureDate)}}<span class="stopRed" *ngIf="segment.changePlane != 'false'">CHANGE
+                        OF
+                        PLANE
+                        REQUIRED.</span>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid bg-light py-2">
+            <div class="row mb-2">
+                <div class="col-auto">
+                    <img src="{{'assets/airlinelogo/' + segment.airline.code + '.png'}}" width="75px" />
+                </div>
+                <div class="col">
+                    <span class="fw-light">{{getAirlineName(segment.airline.name)}} {{segment.flightNo}}
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <div class="d-flex h-100">
+                        <div class="vr mx-auto"></div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row mb-2">
+                        <div class="col">
+                            <strong class="me-4 small">{{segment.departureDate | date: 'EEE d MMM, HH:mm'}}</strong>
+                            <span class="d-sm-inline d-block">{{getAirportName(segment.fromAirport.code)
+                                +'('+segment.fromAirport.code +
+                                ')'}}</span>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <i class="bi-clock me-1"></i>
+                            {{getDuration(segment.elapsedTime)}}
+                        </div>
+
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <strong class="me-4 small">{{segment.arrivalDate | date: 'EEE d MMM, HH:mm'}}</strong>
+                            <span class="d-sm-inline d-block">{{getAirportName(segment.toAirport.code)
+                                +'('+segment.toAirport.code + ')'}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</ng-template>

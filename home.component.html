@@ -1,0 +1,150 @@
+<div class="container mb-4">
+    <div class="row">
+        <div class="col-2 mt-4 position-relative d-none d-sm-inline">
+            <!-- <ul class="navbar-nav position-absolute w-100">
+                <li class="nav-item">
+                    <a class="nav-link">
+                        <h6>Flights
+                        </h6>
+                    </a>
+                </li>
+                <li class="nav-item"><a class="nav-link">
+                        <h6>Hotels
+                        </h6>
+                    </a>
+                </li>
+            </ul> -->
+        </div>
+        <div class="col-12 col-sm-7">
+            <div class="border-top-0 shadow p-4">
+                <div class="row">
+                    <div class="col my-4">
+                        <h2>Search flights</h2>
+                        <h6 class="text-black-50">Let Your Love For Travel Fly!
+                        </h6>
+                    </div>
+                    <flight-search-panel></flight-search-panel>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <img src="/assets/fs-banner.png" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-3 d-none d-sm-inline">
+            <div class="row mt-4">
+                <div class="col">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h3 class="text-primary">Book online and save 20%</h3>
+                        </div>
+                        <img src="/assets/fs-side-banner.png" class="img-fluid rounded">
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h4> Ezeeflights Deals</h4>
+                            <hr>
+                            <ngb-carousel [showNavigationIndicators]="false">
+                                <ng-template ngbSlide>
+                                    <div class="picsum-img-wrapper">
+                                        <div class="text-primary fw-bold">International flights deals</div>
+                                        <small class="text-muted">Get upto $20 off</small>
+                                    </div>
+                                </ng-template>
+                                <ng-template ngbSlide>
+                                    <div class="picsum-img-wrapper">
+                                        <div class="text-primary fw-bold">International flights deals</div>
+                                        <small class="text-muted">Get upto $20 off</small>
+                                    </div>
+                                </ng-template>
+                            </ngb-carousel>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="bg-light py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3 col-12 mb-2 text-center">
+                <img src="/assets/best_price.png" height="85" class="mb-4">
+                <h4>
+                    Best Price Guarantee
+                </h4>
+                Find our lowest price to destinations worldwide guaranteed
+            </div>
+            <div class="col-sm-3 col-12 mb-2 text-center">
+                <img src="/assets/flight_booking.png" height="85" class="mb-4">
+                <h4>
+                    Easy Booking
+                </h4>
+                Find our lowest price to destinations worldwide guaranteed
+            </div>
+            <div class="col-sm-3 col-12 mb-2 text-center">
+                <img src="/assets/call.png" height="85" class="mb-4">
+                <h4>
+                    24X7 Support
+                </h4>
+                Get award-winning service and special deals by calling 18886040198
+            </div>
+            <div class="col-sm-3 col-12 mb-2 text-center">
+                <img src="/assets/trust.png" height="85" class="mb-4">
+                <h4>
+                    Trust pay
+                </h4>
+                100% Payment Protection. Easy Return Policy.
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- -------------------pupup--------------- -->    
+<div class="modal fade" id="id0q" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-ss">
+      <div class="modal-content mx-auto modal-content-ss">
+        <div class="modal-header modal-header-ss">
+          <!-- <h5 class="modal-title" id="exampleModalLabel">New message</h5> -->
+          <img src="../assets/popup-logo.png" alt="" class="logo-model-ss">
+          <button class="modal-icon-close-ss" type="button"  style="color: white;" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-times" style="font-size:30px;color:white"></i></button>
+        </div>
+        <div class="modal-body-main-ss">
+          <div class="modal-body-one-ss">
+              <img src="../assets/popup-img.jpg" alt="" class="modal-body-img-ss">
+          </div>
+          <div class="modal-body-two-ss">
+              <p>A penny <span style="color: #c5271e;">Saved</span>  is a penny earned. Call our Experts to <span style="color: #c5271e;">Save</span> more money on your travel to different destinations.</p>
+              <button><img src="" alt=""><img src="../assets/popup-icon.png" alt="" class="call-icon-main-ss"> +18886040198</button>
+              <div class="row">
+                <div class="col-sm-6">
+                <p class=""> </p><li class=" font-weight-bold ofer">Get Amazing Offline Deals.</li><p></p>
+                <p class="mt-4"> </p><li class="font-weight-bold ofer">Call Waiting Time: <span>Near Zero</span></li><p></p>
+                <!-- <p class="mb-2 text-danger font-weight-bold ofer">Toll Free(US)</p> -->
+                </div>
+                <div class="col-sm-6">
+                <p class=""> </p><li class="font-weight-bold ofer">Only Available on Phone</li><p></p>
+                <p class="mt-4"> </p><li class="font-weight-bold ofer">All Airline Provider</li><p></p>
+                </div>
+              </div>
+        
+                <div class="input-group">
+                  <input type="hidden" name="callMe" value="agentCall">
+                  <input type="hidden" name="reqData" value="Alert me when price drops">
+                      <input type="text" name="number" class="form-control" placeholder="Email" aria-label="Contact Number" aria-describedby="basic-addon2" required="required">
+                      <div class="input-group-append-ss">
+                      <input type="submit" name="sent" value="Get Me Deals" class="btn text-white" id="formGroupExampleInput2">
+
+                      </div>
+                  </div>
+          </div>
+        </div>
+        <div class="modal-footer-ss">
+          <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+          <!-- <button type="button" class="btn btn-primary">Send message</button> -->
+        </div>
+      </div>
+    </div>
+</div>
+<!-- -------------------pupup--------------- -->

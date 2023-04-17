@@ -1,0 +1,514 @@
+<div class="container-fluid shadow-sm">
+    <div class="container pt-3">
+        <fsp-bar></fsp-bar>
+    </div>
+</div>
+<ng-container *ngIf="hasLoaded">
+    <section class="bg-light" *ngIf="transformedResultData.length > 0; else notFound">
+        <nav class="navbar navbar-expand-lg d-block">
+            <div class="navbar-toggler border-0">
+                <div class="d-grid">
+                    <button class="btn btn-sm btn-secondary fw-bold" type="button"
+                        (click)="isFilterCollapsed = !isFilterCollapsed">
+                        <i class="bi-funnel"></i>
+                        Filter Results
+                    </button>
+                </div>
+            </div>
+            <div class="container mt-3">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-3 text-muted d-sm-inline" [ngClass]="isFilterCollapsed ? 'd-none': 'd-block'">
+                        <div class="mb-4">
+                            <i class="bi-funnel"></i>
+                            <strong class="ms-1">Filters</strong>
+                            {{rawResultData?.flightsList?.length == 'undefined' ? 0 :
+                            rawResultData?.flightsList?.length}}
+                            Flights
+                            to {{toAirport.code}} - {{toAirport.name}}
+                        </div>
+                        <div class="stop_panel">
+                            <div class="mb-4">
+                                <i class="bi bi-slash-circle"></i>
+                                <strong class="ms-1">Stops</strong>
+                                <span class="float-end"><a href="javascript:void(0);" class="clear_filter"
+                                        (click)="resetStopOverFilters()">Reset Filter</a></span>
+                            </div>
+                            <div class="mb-2" *ngFor="let stop of stopOverFilters">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" [checked]="stop.selected"
+                                        attr.id="'chk-stop-'{{stop.value}}"
+                                        (change)="stop.selected = !stop.selected; applyLogic()">
+                                    <label class="form-check-label" attr.for="'chk-stop-'{{stop.value}}">
+                                        {{stop.name}}
+                                    </label>
+                                    <span class="float-end">{{stop.price | currency}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="time_panel clearfix">
+                            <div class="mb-4">
+                                <i class="bi-fan"></i>
+                                <strong class="ms-1">Departure Time</strong>
+                                <span class="float-end"><a href="javascript:void(0);" class="clear_filter"
+                                        (click)="resetTimeFilter(outBoundTimeFilters, '#depTimeFilters')">Reset
+                                        Filter</a></span>
+                            </div>
+                            <div id="depTimeFilters" class="time-filter">
+                                <ul class="d-flex">
+                                    <li class="flex-fill">
+                                        <label for="dep_00">
+                                            <input type="checkbox" name="dep_00" id="dep_00"
+                                                (change)="applyOutboundTimeFilter(24,6)">
+                                            <i class="bi-moon"></i>
+                                            <small> 00-06</small>
+                                        </label>
+                                    </li>
+                                    <li class="flex-fill">
+                                        <label for="dep_06">
+                                            <input type="checkbox" name="dep_06" id="dep_06"
+                                                (change)="applyOutboundTimeFilter(6,12)"> <i class="bi-sunrise"></i>
+                                            <small> 06-12</small>
+                                        </label>
+                                    </li>
+                                    <li class="flex-fill">
+                                        <label for="dep_12">
+                                            <input type="checkbox" name="dep_12" id="dep_12"
+                                                (change)="applyOutboundTimeFilter(12,18)">
+                                            <i class="bi-sun"></i>
+                                            <small> 12-18</small>
+                                        </label>
+                                    </li>
+                                    <li class="flex-fill">
+                                        <label for="dep_18">
+                                            <input type="checkbox" name="dep_18" id="dep_18"
+                                                (change)="applyOutboundTimeFilter(18,24)"> <i class="bi-sunset"></i>
+                                            <small> 18-00</small>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="time_panel clearfix"
+                            *ngIf="rawResultData && rawResultData.flightsSearchRQ && rawResultData.flightsSearchRQ.flightWay == 2">
+
+
+                            <div class="mb-4">
+                                <i class="bi-fan"></i>
+                                <strong class="ms-1">Return Time</strong>
+                                <span class="float-end"><a href="javascript:void(0);" class="clear_filter"
+                                        (click)="resetTimeFilter(inBoundTimeFilters, '#retTimeFilters')">Reset
+                                        Filter</a></span>
+                            </div>
+                            <div id="retTimeFilters" class="time-filter">
+                                <ul class="d-flex">
+                                    <li class="flex-fill">
+                                        <label for="ret_00">
+                                            <input type="checkbox" name="ret_00" id="ret_00"
+                                                (change)="applyinboundTimeFilter(24,6)">
+                                            <i class="bi-moon"></i>
+                                            <small> 00-06</small>
+                                        </label>
+                                    </li>
+                                    <li class="flex-fill">
+                                        <label for="ret_06">
+                                            <input type="checkbox" name="ret_06" id="ret_06"
+                                                (change)="applyinboundTimeFilter(6,12)"> <i class="bi-sunrise"></i>
+                                            <small> 06-12</small>
+                                        </label>
+                                    </li>
+                                    <li class="flex-fill">
+                                        <label for="ret_12">
+                                            <input type="checkbox" name="ret_12" id="ret_12"
+                                                (change)="applyinboundTimeFilter(12,18)">
+                                            <i class="bi-sun"></i>
+                                            <small> 12-18</small>
+                                        </label>
+                                    </li>
+                                    <li class="flex-fill">
+                                        <label for="ret_18">
+                                            <input type="checkbox" name="ret_18" id="ret_18"
+                                                (change)="applyinboundTimeFilter(18,24)"> <i class="bi-sunset"></i>
+                                            <small> 18-00</small>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="price_panel">
+
+                            <div class="mb-4">
+                                <i class="bi-currency-dollar"></i>
+                                <strong class="ms-1">Price</strong>
+                                <span class="float-end"><a href="javascript:void(0);" class="clear_filter">Reset
+                                        Filter</a></span>
+                            </div>
+                            <div id="slider-range" class="scal_price"></div>
+                            <ngx-slider [(value)]="minValue" [(highValue)]="maxValue" [options]="options"
+                                (userChangeEnd)="onUserChangeEnd($event)"></ngx-slider>
+                        </div>
+                        <hr>
+                        <div class="Airln_pannel">
+                            <div class="mb-4">
+                                <i class="bi-fan"></i>
+                                <strong class="ms-1">Airlines</strong>
+                                <span class="float-end"><a href="javascript:void(0);" class="clear_filter"
+                                        (click)="clearAirlineFilter()">Clear All</a></span>
+                            </div>
+                            <div class="mb-2" *ngFor="let airline of airlineFilters">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" [checked]="airline.selected"
+                                        attr.id="'chk-airline-'{{airline.code}}"
+                                        (change)="airline.selected = !airline.selected; applyLogic()">
+                                    <label class="form-check-label" attr.for="'chk-airline-'{{airline.code}}">
+                                        {{getAirlineName(airline.code)}}
+                                    </label>
+                                    <span class="float-end">{{airline.price | currency}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-grid">
+                            <button class="btn btn-sm btn-warning fw-bold d-sm-none" type="button"
+                                (click)="onApplyFilters()">
+                                <i class="bi-funnel"></i>
+                                Apply Filters
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-9" [ngClass]="!isFilterCollapsed ? 'd-none': 'd-block'">
+                        <div class="card shadow mb-4">
+                            <div class="row g-0">
+                                <div class="col-4 sort border-end">
+                                    <input type="radio" name="resultsort" id="resultsortprice" value="Cheapest"
+                                        (change)="onSortChanged('Cheapest')" checked />
+                                    <label class="py-3 px-2 px-md-3  d-block" for="resultsortprice">
+                                        <div class="fair_comp_grp">
+                                            <h6><i class="bi bi-tags"></i><small> Cheapest</small></h6>
+                                            <div class="fw-bold text-primary">{{sortCategories.cheapest.price |
+                                                currency}}
+                                            </div>
+                                            <small>{{getDuration(sortCategories.cheapest.duration)}}
+                                                <span class="d-block d-md-inline">
+                                                    {{getStopText(sortCategories.cheapest.stop)}}</span></small>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="col-4 sort border-end">
+                                    <input type="radio" name="resultsort" id="resultsorttime" value="Quickest"
+                                        (change)="onSortChanged('Quickest')" />
+                                    <label class="py-3 px-2 px-md-3 d-block" for="resultsorttime">
+                                        <div class="fair_comp_grp">
+                                            <h6><i class="bi bi-lightning"></i><small> Quickest</small></h6>
+                                            <div class="fw-bold text-primary">{{sortCategories.fastest.price |
+                                                currency}}
+                                            </div>
+                                            <small>{{getDuration(sortCategories.fastest.duration)}}
+                                                <span class="d-block d-md-inline">
+                                                    {{getStopText(sortCategories.fastest.stop)}}
+                                                </span>
+                                            </small>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="col-4 sort">
+                                    <input type="radio" name="resultsort" id="resultsortbest" value="Cheapest"
+                                        (change)="onSortChanged('Cheapest')" />
+                                    <label class="py-3 px-2 px-md-3 d-block" for="resultsortbest">
+                                        <div class="fair_comp_grp">
+                                            <h6><i class="bi bi-hand-thumbs-up"></i><small> Best Value</small></h6>
+                                            <div class="fw-bold text-primary">{{sortCategories.cheapest.price |
+                                                currency}}
+                                            </div>
+                                            <small>{{getDuration(sortCategories.cheapest.duration)}}
+                                                <span class="d-block d-md-inline">
+                                                    {{getStopText(sortCategories.cheapest.stop)}}
+                                                </span>
+                                            </small>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-3 shadow border-secondary"
+                            *ngFor="let result of resultData; let ri = index">
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    <div class="col-sm-9 fsr-summary">
+                                        <div class="row mb-3 g-0">
+                                            <div class="col-2 text-center">
+                                                <img class="img-fluid"
+                                                    src="{{'assets/airlinelogo/' + result.airline.code + '.png'}}"
+                                                    width="75px" />
+                                                <small
+                                                    class="text-secondary d-block text-truncate">{{getAirlineName(result.airline.name)}}</small>
+                                            </div>
+                                            <div class="col-10">
+                                                <div class="row">
+                                                    <div class="col text-end">
+                                                        <div class="fw-bold">
+                                                            <span>{{result.outbound[0].departureDate | date:'HH:mm'}}
+                                                            </span>
+                                                            <small
+                                                                class="d-none d-sm-inline">{{result.outbound[0].departureDate
+                                                                | date:', dd MMM'}}
+                                                            </small>
+
+                                                        </div>
+                                                        <span>{{result.outbound[0].fromAirport.code}}</span>
+                                                    </div>
+                                                    <div class="col text-center">
+                                                        {{getDuration(result.outbound[0].totalTime)}}
+                                                        <flt-stop-ind [stops]="result.outbound"></flt-stop-ind>
+                                                    </div>
+                                                    <div class="col text-left">
+
+                                                        <div class="fw-bold">
+
+                                                            <span>{{result.outbound[result.outbound.length -
+                                                                1].arrivalDate
+                                                                |
+                                                                date:'HH:mm'}}
+                                                            </span>
+
+                                                            <small
+                                                                class="d-none d-sm-inline">{{result.outbound[result.outbound.length
+                                                                - 1].arrivalDate
+                                                                |
+                                                                date:', dd MMM'}}
+                                                            </small>
+                                                        </div>
+                                                        <span>{{result.outbound[result.outbound.length -
+                                                            1].toAirport.code}}</span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3 g-0" *ngIf="result.inbound && result.inbound.length > 0">
+                                            <div class="col-2 text-center">
+                                                <img class="img-fluid"
+                                                    src="{{'assets/airlinelogo/' + result.airline.code + '.png'}}"
+                                                    width="75px" />
+                                                <small
+                                                    class="text-secondary d-block text-truncate">{{getAirlineName(result.airline.name)}}</small>
+                                            </div>
+                                            <div class="col-10">
+                                                <div class="row">
+                                                    <div class="col text-end">
+                                                        <div class="fw-bold">
+
+                                                            <span>{{result.inbound[0].departureDate | date:'HH:mm'}}
+                                                            </span>
+
+                                                            <small
+                                                                class="d-none d-sm-inline">{{result.inbound[0].departureDate
+                                                                | date:', dd MMM'}}
+                                                            </small>
+
+                                                        </div>
+                                                        <span>{{result.inbound[0].fromAirport.code}}</span>
+                                                    </div>
+                                                    <div class="col text-center">
+                                                        {{getDuration(result.inbound[0].totalTime)}}
+                                                        <flt-stop-ind [stops]="result.outbound"></flt-stop-ind>
+                                                    </div>
+                                                    <div class="col text-left">
+
+                                                        <div class="fw-bold">
+
+                                                            <span>{{result.inbound[result.inbound.length -
+                                                                1].arrivalDate
+                                                                |
+                                                                date:'HH:mm'}}
+                                                            </span>
+
+                                                            <small
+                                                                class="d-none d-sm-inline">{{result.inbound[result.inbound.length
+                                                                - 1].arrivalDate
+                                                                |
+                                                                date:', dd MMM'}}
+                                                            </small>
+                                                        </div>
+                                                        <span>{{result.inbound[result.inbound.length -
+                                                            1].toAirport.code}}</span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 border-start">
+                                        <div class="row text-end">
+                                            <div class="col-auto col-sm-12">
+                                                <small class="text-secondary">Per Adult fare</small>
+                                            </div>
+                                            <div class="col-auto col-sm-12 text-end">
+                                                <div class="h4 fw-bold text-primary">
+                                                    {{result.flightFare.adultFare | currency}}</div>
+                                            </div>
+                                            <div class="col col-sm-12">
+                                                <button class="btn btn-warning text-primary fw-bold"
+                                                    (click)="selectFlight(result)">Select</button>
+                                            </div>
+                                            <small class="fw-bold d-block">Includes taxes and fees</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col small">
+                                        <!-- <span><i class="bi bi-currency-dollar" aria-hidden="true"></i> Non
+                                            refundable</span><span class="ms-2"><i class="bi bi-briefcase"
+                                                aria-hidden="true"></i>
+                                            {{result.outbound[0].baggageAllowance}}</span> -->
+                                        <button class="btn btn-link fw-bold text-danger p-0 float-end"
+                                            (click)="togglefltdtl(fltdtl)">Flight
+                                            Details
+                                            <i class="bi bi-chevron-down" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div #fltdtl class="card-footer d-none">
+                                <div class="pt-4" *ngIf="result.outbound && result.outbound.length > 0">
+                                    <h5>Depart {{result.outbound[0].departureDate | date: 'EEE, MMM d'}}</h5>
+                                    <ng-container *ngTemplateOutlet="journeytmpl;context:{$implicit: result.outbound}">
+
+                                    </ng-container>
+                                </div>
+
+                                <div class="pt-4" *ngIf="result.inbound && result.inbound.length > 0">
+                                    <h5>Return {{result.inbound[0].departureDate | date: 'EEE, MMM d'}}</h5>
+                                    <ng-container *ngTemplateOutlet="journeytmpl;context:{$implicit: result.inbound}">
+
+                                    </ng-container>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row text-center">
+                            <div class="col">
+                                <div class="alertsBtn"><a href="javascript: void(0);" (click)="loadMore($event)">
+                                        Load More Results</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </section>
+
+</ng-container>
+<ng-container *ngIf="!hasLoaded">
+    <div class="container mb-2">
+        <div class="progress" style="height: 5px;">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar"
+                aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+        </div>
+    </div>
+    <flight-loading></flight-loading>
+</ng-container>
+
+<ng-template #journeytmpl let-segments>
+    <ng-container *ngFor="let segment of segments; let i=index">
+        <div class="row mb-4" *ngIf="i > 0">
+            <div class="col border">
+                Stop-Over: {{getTimeDiff(segments[i-1].arrivalDate,
+                segment.departureDate)}} <span class="stopRed" *ngIf="segment.changePlane != 'false'">CHANGE
+                    OF
+                    PLANE
+                    REQUIRED.</span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-auto">
+                <img class="img-fluid" src="{{'assets/airlinelogo/' + segment.airline.code + '.png'}}" width="75px" />
+            </div>
+            <div class="col">
+                <span class="fw-light">{{getAirlineName(segment.airline.name)}} {{segment.flightNo}}
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-1">
+                <div class="d-flex h-100 pb-3">
+                    <div class="vr mx-auto"></div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row mb-3">
+                    <div class="col">
+                        <strong class="me-4">{{segment.departureDate | date: 'EEE d MMM, HH:mm'}}</strong>
+                        <span>{{getAirportName(segment.fromAirport.code) +'('+segment.fromAirport.code + ')'}}</span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+
+                    <div class="col">
+                        <i class="bi-clock me-1"></i>
+                        {{getDuration(segment.elapsedTime)}}
+                    </div>
+
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <strong class="me-4">{{segment.arrivalDate | date: 'EEE d MMM, HH:mm'}}</strong>
+                        <span>{{getAirportName(segment.toAirport.code) +'('+segment.toAirport.code + ')'}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</ng-template>
+
+<ng-template #notFound>
+    <app-not-found></app-not-found>
+</ng-template>
+
+<!-- -------------------pupup--------------- -->
+<div class="modal fade" id="id0q" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-ss">
+      <div class="modal-content mx-auto modal-content-ss">
+        <div class="modal-header modal-header-ss">
+          <!-- <h5 class="modal-title" id="exampleModalLabel">New message</h5> -->
+          <img src="../assets/popup-logo.png" alt="" class="logo-model-ss">
+          <button class="modal-icon-close-ss" type="button"  style="color: white;" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-times" style="font-size:30px;color:white"></i></button>
+        </div>
+        <div class="modal-body-main-ss">
+          <div class="modal-body-one-ss">
+              <img src="../assets/popup-img.jpg" alt="" class="modal-body-img-ss">
+          </div>
+          <div class="modal-body-two-ss">
+              <p>A penny <span style="color: #c5271e;">Saved</span>  is a penny earned. Call our Experts to <span style="color: #c5271e;">Save</span> more money on your travel to different destinations.</p>
+              <button><img src="" alt=""><img src="../assets/popup-icon.png" alt="" class="call-icon-main-ss"> +18886040198</button>
+              <div class="row">
+                <div class="col-sm-6">
+                <p class=""> </p><li class=" font-weight-bold ofer">Get Amazing Offline Deals.</li><p></p>
+                <p class="mt-4"> </p><li class="font-weight-bold ofer">Call Waiting Time: <span>Near Zero</span></li><p></p>
+                <!-- <p class="mb-2 text-danger font-weight-bold ofer">Toll Free(US)</p> -->
+                </div>
+                <div class="col-sm-6">
+                <p class=""> </p><li class="font-weight-bold ofer">Only Available on Phone</li><p></p>
+                <p class="mt-4"> </p><li class="font-weight-bold ofer">All Airline Provider</li><p></p>
+                </div>
+              </div>
+        
+                <div class="input-group">
+                  <input type="hidden" name="callMe" value="agentCall">
+                  <input type="hidden" name="reqData" value="Alert me when price drops">
+                      <input type="text" name="number" class="form-control" placeholder="Email" aria-label="Contact Number" aria-describedby="basic-addon2" required="required">
+                      <div class="input-group-append-ss">
+                      <input type="submit" name="sent" value="Get Me Deals" class="btn text-white" id="formGroupExampleInput2">
+
+                      </div>
+                  </div>
+          </div>
+        </div>
+        <div class="modal-footer-ss">
+          <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+          <!-- <button type="button" class="btn btn-primary">Send message</button> -->
+        </div>
+      </div>
+    </div>
+</div>
+<!-- -------------------pupup--------------- -->

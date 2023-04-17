@@ -1,0 +1,19 @@
+
+@import "~bootstrap/scss/_functions.scss";
+@import "~bootstrap/scss/_variables.scss";
+@import "~bootstrap/scss/mixins/_breakpoints.scss";
+
+
+.bg-about {
+    background-image: url("../../../assets/about_bg.png");
+    height: 100px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    @include media-breakpoint-up(sm) {
+        height: 300px;
+        background-position: 0 -150px;
+    }
+}
+p{
+    text-align: justify;
+}
